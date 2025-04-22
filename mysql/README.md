@@ -1,0 +1,3 @@
+```bash
+mysql://myuser:mypassword@localhost:3306/mydb
+```
