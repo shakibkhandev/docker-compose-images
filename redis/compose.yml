@@ -5,7 +5,7 @@ services:
     ports:
       - "6379:6379"    # Expose Redis on port 6379
     volumes:
-      - redis_data:/data
+      - redis:/var/lib/redis
     restart: unless-stopped
     command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
 
@@ -13,10 +13,16 @@ services:
     image: redis/redisinsight:latest
     container_name: redisinsight
     ports:
+      - "6379:6379"    # Exposed Redis on port 6379
       - "8001:8001"    # Expose RedisInsight on port 8001
     restart: unless-stopped
+    volumes:
+      - redis-stack:/var/lib/redis-stack
+    environment:
+      - REDIS_ARGS=--save 900 1 --loglevel warning
     depends_on:
       - redis
 
 volumes:
-  redis_data:
+  redis:
+  redis-stack:
